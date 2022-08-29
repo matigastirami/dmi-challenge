@@ -1,39 +1,97 @@
 import { useEffect, useState } from "react";
 import TvApiService from "../services/tv-api.service";
 import Image from "next/image";
+import { TvShowDetail } from "../@types/tv-show.types";
 
-export default function Detail({ id }) {
-    const [info, setInfo] = useState(null);
+type DetailProps = {
+    id: number | null
+}
 
-    // TODO: Fetch by id, render an image, use a suspend while the API returns, handle errors
-    useEffect(() => {
-        TvApiService.getById(id)
-            .then(res => res.json())
-            .then(data => setInfo(data))
-            .catch(err =>  console.log(err))
-    }, [])
+export default function Detail({ id }: DetailProps) {
+  const [info, setInfo] = useState<TvShowDetail | null>(null);
 
-    return (
-        info && 
-        <div className="detail">
-            <div className="detail-text">
-            <h1>{info.name}</h1>
-                <span><strong>Channel:</strong> {info.network?.name ?? 'Unknown'}</span>
-                <span><strong>Country:</strong> {info.network?.country.name ?? 'Unknown'}</span>
-                <span><strong>Site:</strong> <a href={info.officialSite}>Click here</a></span>
-                <span><strong>Status:</strong> {info.status}</span>
-                <span><strong>Genres:</strong> {info.genres.join(', ')}</span>
-                <span><strong>IMBD:</strong> {info.externals.imdb}</span>
-                <span><strong>Rating:</strong> {info.rating.average}</span>
-            </div>     
-            <Image
-                src={info.image?.original ?? "/no-image-placeholder.png"}
-                alt=""
-                //className="tv-show-catalog__image"
-                width="100%"
-                height="100%"
-                objectFit="contain"
-            />
+  // TODO: Fetch by id, render an image, use a suspend while the API returns, handle errors
+  useEffect(() => {
+    getTvShowInfo();
+  }, []);
+
+  const getTvShowInfo = () => {
+    return TvApiService.getById(id)
+      .then((res) => res.json())
+      .then((data) => setInfo(data))
+      .catch(console.error);
+  };
+
+  const getNetworkName = () => {
+    return info?.network?.name ?? "Unknown";
+  }
+
+  const getCountry = () => {
+    return info?.network?.country.name ?? "Unknown"
+  }
+
+  const getOfficialSiteLink = () => {
+    return info?.officialSite ? 
+        <a href={info?.officialSite}>Click here</a> :
+        'Site not available'
+  }
+
+  const getImgSrc = () => {
+    return info?.image?.original ?? "/no-image-placeholder.png";
+  }
+
+  const getStatus = () => {
+    return info?.status;
+  }
+
+  const getGenres = () => {
+    return info?.genres?.join(", ");
+  }
+
+  const getImdb = () => {
+    return info?.externals.imdb ?? "Unknown";
+  }
+
+  const getRating = () => {
+    return info?.rating.average ?? "Unknown";
+  }
+
+  return (
+    info && (
+      <div className="detail">
+        <div className="detail-text">
+          <h1>{info.name}</h1>
+          <span>
+            <strong>Channel:</strong> {getNetworkName()}
+          </span>
+          <span>
+            <strong>Country:</strong> {getCountry()}
+          </span>
+          <span>
+            <strong>Site:</strong> {getOfficialSiteLink()}
+          </span>
+          <span>
+            <strong>Status:</strong> {getStatus()}
+          </span>
+          <span>
+            <strong>Genres:</strong> {getGenres()}
+          </span>
+          <span>
+            <strong>IMBD:</strong> {getImdb()}
+          </span>
+          <span>
+            <strong>Rating:</strong> {getRating()}
+          </span>
         </div>
-    );
+        <Image
+          src={getImgSrc()}
+          alt=""
+          //className="tv-show-catalog__image"
+          width="100%"
+          height="100%"
+          objectFit="contain"
+        />
+      </div>
+    )
+  );
 }

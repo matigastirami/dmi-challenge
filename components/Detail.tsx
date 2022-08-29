@@ -4,8 +4,8 @@ import Image from "next/image";
 import { TvShowDetail } from "../@types/tv-show.types";
 
 type DetailProps = {
-    id: number | null
-}
+  id: number | null;
+};
 
 export default function Detail({ id }: DetailProps) {
   const [info, setInfo] = useState<TvShowDetail | null>(null);
@@ -24,41 +24,43 @@ export default function Detail({ id }: DetailProps) {
 
   const getNetworkName = () => {
     return info?.network?.name ?? "Unknown";
-  }
+  };
 
   const getCountry = () => {
-    return info?.network?.country.name ?? "Unknown"
-  }
+    return info?.network?.country.name ?? "Unknown";
+  };
 
   const getOfficialSiteLink = () => {
-    return info?.officialSite ? 
-        <a href={info?.officialSite}>Click here</a> :
-        'Site not available'
-  }
+    return info?.officialSite ? (
+      <a href={info?.officialSite}>Click here</a>
+    ) : (
+      "Site not available"
+    );
+  };
 
   const getImgSrc = () => {
     return info?.image?.original ?? "/no-image-placeholder.png";
-  }
+  };
 
   const getStatus = () => {
     return info?.status;
-  }
+  };
 
   const getGenres = () => {
     return info?.genres?.join(", ");
-  }
+  };
 
   const getImdb = () => {
     return info?.externals.imdb ?? "Unknown";
-  }
+  };
 
   const getRating = () => {
     return info?.rating.average ?? "Unknown";
-  }
+  };
 
-  return (
-    info && (
-      <div className="detail">
+  const renderShowInfo = () =>
+    info ? (
+      <div className="detail" role="show-detail">
         <div className="detail-text">
           <h1>{info.name}</h1>
           <span>
@@ -77,7 +79,7 @@ export default function Detail({ id }: DetailProps) {
             <strong>Genres:</strong> {getGenres()}
           </span>
           <span>
-            <strong>IMBD:</strong> {getImdb()}
+            <strong>IMDB:</strong> {getImdb()}
           </span>
           <span>
             <strong>Rating:</strong> {getRating()}
@@ -92,6 +94,9 @@ export default function Detail({ id }: DetailProps) {
           objectFit="contain"
         />
       </div>
-    )
-  );
+    ) : (
+      <h2>Could not fetch info the the selected show</h2>
+    );
+
+  return renderShowInfo();
 }

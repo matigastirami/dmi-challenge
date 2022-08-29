@@ -3,8 +3,9 @@ import {server} from '../msw/server'
 
 global.fetch = fetchPolifill.fetch;
 
+jest.setTimeout(15000);
+
 beforeAll(() => {
-    jest.setTimeout(10000);
     server.listen();
 })
 afterEach(() => server.resetHandlers())

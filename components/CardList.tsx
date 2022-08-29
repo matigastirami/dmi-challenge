@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { TvShowDetail } from "../@types/tv-show.types";
+import { TvShowDetail, TvShowList } from "../@types/tv-show.types";
 import useModal from "../hooks/useModal";
 import { SearchTermContext } from "../pages";
 import TvApiService from "../services/tv-api.service";
@@ -8,7 +8,7 @@ import Detail from "./Detail";
 import Modal from "./Modal";
 
 const CardList = () => {
-  const [tvShows, setTvShows] = useState([]);
+  const [tvShows, setTvShows] = useState<TvShowList | []>([]);
   const [selected, setSelected] = useState(null);
   const { isShowing, toggle } = useModal();
 
@@ -48,7 +48,7 @@ const CardList = () => {
               onClick={() => selectTvShow(item.show.id)}
             />
           ))
-        : <h2>No cards found, try searching another thing :)</h2>}
+        : <h2>No TV shows here, try searching for another thing :)</h2>}
     </>
   );
 

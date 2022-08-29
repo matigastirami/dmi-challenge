@@ -39,9 +39,9 @@ test("should nothing when the API returns empty result", async () => {
 
   customRender(<CardList />, { providerProps });
 
-  await waitFor(() => screen.getByText('No cards found, try searching another thing :)'), { timeout: 10000 });
+  await waitFor(() => screen.getByText('No TV shows here, try searching for another thing :)'), { timeout: 10000 });
   
-  const cards = screen.getByText('No cards found, try searching another thing :)');
+  const cards = screen.getByText('No TV shows here, try searching for another thing :)');
 
   expect(cards).toBeDefined();
 });

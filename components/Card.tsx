@@ -1,11 +1,17 @@
 import Image from "next/image";
+import { TvShowDetail } from "../@types/tv-show.types";
 
-const Card = ({ item, onClick }) => {
+type CardProps = {
+  item: { show: TvShowDetail },
+  onClick: any
+}
+
+const Card = ({ item, onClick }: CardProps) => {
   const {
     show: { image, name, summary },
   } = item;
 
-  const getImageSrc = () => {
+  const getImageSrc = (): string => {
     return image?.medium ?? "/no-image-placeholder.png";
   };
 

@@ -14,6 +14,9 @@ const Home: NextPage = () => {
 
   return (
     <SearchTermContext.Provider value={{ searchTerm, changeSearchTermValue }}>
+      <header className="header" id="myHeader">
+        <h1>TV shows catalog</h1>
+      </header>
       <Search />
       <CardList />
     </SearchTermContext.Provider>

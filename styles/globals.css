@@ -132,6 +132,16 @@ img {
   height: auto;
 }
 
+header {
+  position: sticky; 
+  top: 0;
+  z-index: 1;
+  background-color: #000;
+  color: white;
+  text-align: center;
+
+}
+
 
 .tv-show-catalog__item {
   background: white;

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { TvShowDetail } from "../@types/tv-show.types";
 import useModal from "../hooks/useModal";
 import { SearchTermContext } from "../pages";
 import TvApiService from "../services/tv-api.service";
@@ -14,13 +15,18 @@ const CardList = () => {
   const { searchTerm } = useContext(SearchTermContext);
 
   useEffect(() => {
-    TvApiService.searchShows(searchTerm ?? "")
-      .then((res) => res.json())
-      .then((data) => setTvShows(data))
-      .catch((err) => {
-        console.log("Error fetching TV API", err);
-      });
+    fetchTvShows();
   }, [searchTerm]);
+
+  const fetchTvShows = async () => {
+    try {
+      const response = await TvApiService.searchShows(searchTerm ?? "");
+      const data = await response.json();
+      setTvShows(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const selectTvShow = (id) => {
     if (isShowing) {
@@ -34,13 +40,15 @@ const CardList = () => {
 
   const showCards = () => (
     <>
-      {tvShows.map((item) => (
-        <Card
-          key={`tv-show-${item.show.id}`}
-          item={item}
-          onClick={() => selectTvShow(item.show.id)}
-        />
-      ))}
+      {tvShows.length
+        ? tvShows.map((item) => (
+            <Card
+              key={`tv-show-${item.show.id}`}
+              item={item}
+              onClick={() => selectTvShow(item.show.id)}
+            />
+          ))
+        : <h2>No cards found, try searching another thing :)</h2>}
     </>
   );
 

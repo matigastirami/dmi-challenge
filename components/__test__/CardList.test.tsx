@@ -1,8 +1,6 @@
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import { SearchTermContext } from "../../pages";
-import TvApiService from "../../services/tv-api.service";
 import CardList from "../CardList";
-import { mockTvShows } from "./helper/tv-show.mock";
 
 const customRender = (ui, { providerProps, ...renderOptions }) => {
   return render(
@@ -28,4 +26,22 @@ test("should render cards list with a valid search term", async () => {
   const cards = screen.getAllByRole('card');
 
   expect(cards).toHaveLength(3);
+});
+
+
+test("should nothing when the API returns empty result", async () => {
+
+  const providerProps = {
+    value: {
+      searchTerm: "test",
+    },
+  };
+
+  customRender(<CardList />, { providerProps });
+
+  await waitFor(() => screen.getByText('No cards found, try searching another thing :)'), { timeout: 10000 });
+  
+  const cards = screen.getByText('No cards found, try searching another thing :)');
+
+  expect(cards).toBeDefined();
 });

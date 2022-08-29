@@ -33,5 +33,11 @@ export type TvShowDetail = {
     genres?: Array<string>,
     externals: TvShowExternals,
     rating: TvShowRating,
-    image: TvShowImage
+    image: TvShowImage,
+    summary: string
 }
+
+export type TvShowList = {
+    show: TvShowDetail,
+    score: number
+  }

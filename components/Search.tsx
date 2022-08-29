@@ -7,8 +7,6 @@ const { searchTerm, changeSearchTermValue } = useContext(SearchTermContext);
 
   return (
     <div className="search_container">
-      <h1>TV shows catalog</h1>
-
       <input
         type="search"
         name="search_tv_shows"

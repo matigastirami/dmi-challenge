@@ -1,43 +1,43 @@
 type TvShowNetwork = {
-    name: string,
-    country: TvShowCountry
-}
+  name: string;
+  country: TvShowCountry;
+};
 
 type TvShowCountry = {
-    code: string,
-    name: string,
-    timezone: string
-}
+  code: string;
+  name: string;
+  timezone: string;
+};
 
 type TvShowExternals = {
-    imdb?: string,
-    thetvdb?: number,
-    tvrage?: number
-}
+  imdb?: string;
+  thetvdb?: number;
+  tvrage?: number;
+};
 
 type TvShowRating = {
-    average?: number
-}
+  average?: number;
+};
 
 type TvShowImage = {
-    medium?: string,
-    original?: string
-}
+  medium?: string;
+  original?: string;
+};
 
 export type TvShowDetail = {
-    id: number,
-    name: string,
-    officialSite?: string,
-    network?: TvShowNetwork,
-    status?: string,
-    genres?: Array<string>,
-    externals: TvShowExternals,
-    rating: TvShowRating,
-    image: TvShowImage,
-    summary: string
-}
+  id: number;
+  name: string;
+  officialSite?: string;
+  network?: TvShowNetwork;
+  status?: string;
+  genres?: Array<string>;
+  externals: TvShowExternals;
+  rating: TvShowRating;
+  image: TvShowImage;
+  summary: string;
+};
 
-export type TvShowList = {
-    show: TvShowDetail,
-    score: number
-  }
+export type TvShowList = Array<{
+  show: TvShowDetail;
+  score: number;
+}>;

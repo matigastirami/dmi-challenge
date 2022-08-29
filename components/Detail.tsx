@@ -15,11 +15,14 @@ export default function Detail({ id }: DetailProps) {
     getTvShowInfo();
   }, []);
 
-  const getTvShowInfo = () => {
-    return TvApiService.getById(id)
-      .then((res) => res.json())
-      .then((data) => setInfo(data))
-      .catch(console.error);
+  const getTvShowInfo = async () => {
+    try {
+      const response = await TvApiService.getById(id);
+      const data = await response.json();
+      setInfo(data);
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const getNetworkName = () => {
